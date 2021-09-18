@@ -1,14 +1,15 @@
-import random
 import time
+import random
 user_play = 1  # 1 ==> True
 comp_play = 0  # 0 ==> False
 
 bet_str = 0
 bet_money = 0
+balance = 1000
 
 
 def tic_tac_toe():
-    global user_play, comp_play, bet_str, bet_money
+    global user_play, comp_play, bet_str, bet_money, balance
     list_of_inputs = []
 
     for empty_signs in range(0, 9):  # empty strings inside a body
@@ -104,7 +105,7 @@ def tic_tac_toe():
                         elif play_again == 2:
                             exit()
                         elif play_again == 3:
-                            bet_game = list(map(int, input('Make a bet on X\'s (1), O\'s (0) and Draw (3) and type chosen amount of money. \nType as shown on example: 1 154\n').split()))
+                            bet_game = list(map(int, input(f'Make a bet on X\'s (1), O\'s (0) and Draw (3) and type chosen amount of money. \nType as shown on example: 1 154\nYour current balance is: {balance}\n').split()))
                             bet_str = bet_game[0]
                             bet_money = bet_game[1]
                             comp_play = 1
@@ -115,26 +116,32 @@ def tic_tac_toe():
                     if x_winnings + o_winnings == 0 and tryings == 10:
                         print('Draw')
                         if comp_play == 1 and bet_str == 3:
-                            print(f'You won ${bet_money * 5.5}')
-                        elif comp_play == 1 and (bet_str == 0 or bet_str == 1):
-                            print(f'You lost ${bet_money}')
+                            balance += bet_money * 5.5
+                            print(f'You won ${bet_money * 5.5} Your current balance is: {balance}')
+                        if comp_play == 1 and bet_str != 3:
+                            balance -= bet_money
+                            print(f'You lost ${bet_money} Your current balance is: {balance}')
                         again_play()
 
                     # Winning
                     if x_winnings == 1:
                         print('X wins')
                         if comp_play == 1 and bet_str == 1:
-                            print(f'You won ${bet_money * 2}')
-                        elif comp_play == 1 and bet_str == 0:
-                            print(f'You lost ${bet_money}')
+                            balance += bet_money * 2
+                            print(f'You won ${bet_money * 2} Your current balance is: {balance}')
+                        if comp_play == 1 and bet_str != 1:
+                            balance -= bet_money
+                            print(f'You lost ${bet_money} Your current balance is: {balance}')
                         again_play()
 
                     if o_winnings == 1:
                         print('O wins')
                         if comp_play == 1 and bet_str == 0:
-                            print(f'You won ${bet_money * 2}')
-                        elif comp_play == 1 and bet_str == 1:
-                            print(f'You lost ${bet_money}')
+                            balance += bet_money * 2
+                            print(f'You won ${bet_money * 2} Your current balance is: {balance}')
+                        if comp_play == 1 and bet_str != 0:
+                            balance -= bet_money
+                            print(f'You lost ${bet_money} Your current balance is: {balance}')
                         again_play()
 
                 elif list_of_inputs[actual_index] != ' ':
